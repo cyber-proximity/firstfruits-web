@@ -1,0 +1,27 @@
+---
+// Initials avatar. Used until real photos of people are supplied.
+interface Props {
+  name: string;
+  class?: string;
+  /** White circle, for use on tinted backgrounds */
+  light?: boolean;
+}
+
+const { name, class: className = 'size-14 text-lg', light = false } = Astro.props;
+const initials = name
+  .replace(/^(Dr|Guru|Mr|Mrs|Ms)\.?\s+/i, '')
+  .split(/\s+/)
+  .map((part) => part[0])
+  .slice(0, 2)
+  .join('')
+  .toUpperCase();
+---
+
+<span
+  class:list={[
+    'inline-flex shrink-0 items-center justify-center rounded-full font-display font-semibold text-brand-dark',
+    light ? 'bg-surface' : 'bg-brand-tint',
+    className,
+  ]}
+  aria-hidden="true">{initials}</span
+>

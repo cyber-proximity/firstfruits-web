@@ -1,0 +1,74 @@
+---
+import { getCollection } from 'astro:content';
+import BaseLayout from '../layouts/BaseLayout.astro';
+import PageHero from '../components/PageHero.astro';
+import Section from '../components/Section.astro';
+import FeatureGrid from '../components/FeatureGrid.astro';
+import QuoteGrid from '../components/QuoteGrid.astro';
+import Quote from '../components/Quote.astro';
+import CTA from '../components/CTA.astro';
+import { placeholder } from '../lib/placeholders';
+import type { Feature } from '../lib/types';
+
+import heroImage from '../assets/placeholders/sunrise-mist.jpg';
+
+// Quotes live in src/content/teachings.json, grouped by theme.
+const teachings = await getCollection('teachings');
+const themes = [...new Set(teachings.map((t) => t.data.theme))];
+
+const mission: Feature[] = [
+  { icon: 'leaf', title: 'Promote Plant-Based Living', text: 'Advocating a vegan lifestyle to protect animals and the planet. Join our movement for a kinder world.' },
+  { icon: 'heart', title: 'Foster Compassionate Communities', text: 'Building supportive networks for ethical and sustainable living, connecting like-minded people.' },
+  { icon: 'book', title: 'Educate and Inspire', text: 'Sharing knowledge and stories to awaken global consciousness. Explore our resources and teachings.' },
+];
+---
+
+<BaseLayout
+  title="Teachings"
+  description="Inspirational teachings on presence, sacred Earth wisdom, universal love, mindfulness and compassion for all beings."
+>
+  <PageHero
+    variant="overlay"
+    eyebrow="Inspirational teachings"
+    title="In the stillness of the mind, wisdom arises"
+    lead="In the silence of the heart, love blossoms, guiding us towards universal understanding."
+    image={heroImage}
+    imageAlt=""
+  />
+
+  <Section tone="tint">
+    <Quote
+      quote="Animals also are people. They have feelings, intelligence, emotions, understanding, and the desire to live their lives in peace."
+      cite="Supreme Master Ching Hai"
+    />
+  </Section>
+
+  <Section title="Our mission: cultivating compassion" intro="We believe in a world where all beings are treated with respect and kindness.">
+    <FeatureGrid items={mission} align="center" />
+  </Section>
+
+  {
+    themes.map((theme, i) => (
+      <Section tone={i % 2 === 0 ? 'muted' : 'default'} title={theme}>
+        <QuoteGrid
+          items={teachings
+            .filter((t) => t.data.theme === theme)
+            .map((t) => ({
+              quote: t.data.quote,
+              cite: t.data.author,
+              image: t.data.image ? placeholder(t.data.image) : undefined,
+            }))}
+        />
+      </Section>
+    ))
+  }
+
+  <CTA
+    title="Ready to make a difference?"
+    text="Explore our resources, join our community, or learn how you can contribute to a more compassionate world for all."
+    actions={[
+      { label: 'Learn about plant-based living', href: '/plant-based-living' },
+      { label: 'Visit the learning hub', href: '/learn' },
+    ]}
+  />
+</BaseLayout>

@@ -1,0 +1,128 @@
+---
+import { Image } from 'astro:assets';
+import BaseLayout from '../layouts/BaseLayout.astro';
+import PageHero from '../components/PageHero.astro';
+import Section from '../components/Section.astro';
+import SplitFeature from '../components/SplitFeature.astro';
+import FeatureGrid from '../components/FeatureGrid.astro';
+import Quote from '../components/Quote.astro';
+import CTA from '../components/CTA.astro';
+import type { Feature } from '../lib/types';
+
+import branches from '../assets/placeholders/branches-banner.jpg';
+import pineSunrise from '../assets/placeholders/pine-sunrise.jpg';
+import leafBanner from '../assets/placeholders/leaf-banner.jpg';
+import mandala from '../assets/placeholders/mandala.jpg';
+
+const principles: Feature[] = [
+  { icon: 'leaf', title: 'Earth as Ally', text: 'We recognise Earth not as a resource but as a conscious, living being and our primary ally. Our connection is one of mutual respect and flourishing.' },
+  { icon: 'eye', title: 'I AM Consciousness', text: "Within each being resides the spark of universal consciousness. Awakening this 'I AM' means recognising our inherent divinity and interconnectedness." },
+  { icon: 'handshake', title: 'Sacred Reciprocity', text: 'The universe thrives on a sacred exchange of giving and receiving. We cultivate practices that honour this balance.' },
+  { icon: 'infinity', title: 'Timeless Wisdom', text: 'Ancient truths echo through the ages. We integrate ancestral wisdom with contemporary understanding.' },
+  { icon: 'lightbulb', title: 'Illuminated Action', text: 'Consciousness without action is a flickering candle. We commit to purposeful actions that bring positive change for the planet.' },
+  { icon: 'tree', title: 'Holistic Harmony', text: 'True well-being arises from the integration of mind, body, spirit and environment, within ourselves and with the natural world.' },
+];
+
+const challenges: Feature[] = [
+  { icon: 'tree', title: 'Deforestation & Habitat Loss', text: 'Vast forests, critical for oxygen and biodiversity, are cleared at alarming rates.' },
+  { icon: 'factory', title: 'Industrial Pollution', text: 'Emissions contaminate air, water and soil, harming human health and ecological balance.' },
+  { icon: 'cloud', title: 'Climate Change', text: 'Rising temperatures bring droughts, floods and storms that displace communities.' },
+  { icon: 'waves', title: 'Ocean Acidification', text: 'Oceans absorbing carbon dioxide harms marine life and the delicate aquatic food web.' },
+];
+
+const weave = [
+  { title: 'The Great Unveiling', text: 'In the quiet chambers of existence a profound truth stirs: all life is woven from a single, luminous thread. The Great Unveiling is our collective awakening to this cosmic tapestry, where illusion dissolves and the sacred essence of being is revealed.' },
+  { title: 'Sovereignty of Spirit', text: 'Each soul is a sovereign domain, a universe unto itself, yet linked to the boundless Whole. To claim sovereignty is to align with our highest truth, guided by intuition and an unshakeable inner compass.' },
+  { title: 'Embracing the Shadow & Light', text: 'The dance of polarity defines our earthly experience. We embrace both the shadow and the light within, knowing that true growth blossoms from integrating every facet of our being.' },
+];
+---
+
+<BaseLayout
+  title="Our Manifesto"
+  description="The Eco-Spiritual Manifesto: the principles guiding a life of compassionate presence and planetary stewardship."
+>
+  <PageHero
+    eyebrow="Why we act"
+    title="The Eco-Spiritual Manifesto"
+    lead="Journey into the heart of interconnectedness, where ancient wisdom meets the needs of our time. Discover the principles guiding a life of compassionate presence and planetary stewardship."
+  />
+
+  <div class="container-page -mt-6 lg:-mt-10">
+    <Image src={branches} alt="" widths={[640, 1200]} sizes="100vw" class="h-24 w-full rounded-card object-cover sm:h-32" />
+  </div>
+
+  <Section>
+    <SplitFeature image={pineSunrise} imageAlt="The sun rising over a pine forest" title="Embracing a sacred connection to Earth">
+      <p>
+        In a world grappling with ecological crises, we call for a fundamental shift in our relationship with the planet: to
+        see Earth not as a resource, but as a living, sacred being deserving of reverence and protection.
+      </p>
+      <p>
+        True sustainability stems from an awakened consciousness and an ethical framework that puts the health of the whole
+        ecosystem first. Our well-being is inseparable from the well-being of the Earth.
+      </p>
+    </SplitFeature>
+  </Section>
+
+  <Section tone="muted" title="Core Principles of Awakening">
+    <FeatureGrid items={principles} align="center" />
+  </Section>
+
+  <Section width="narrow" title="The unfolding environmental crisis" align="left">
+    <div class="space-y-4 text-lg leading-relaxed text-muted">
+      <p>
+        Humanity stands at a critical juncture. Decades of unchecked industrialisation, consumerism and disconnection from
+        natural rhythms have pushed our planet's ecosystems to their limits. Climate change, biodiversity loss and resource
+        depletion are not abstract threats; they are unfolding realities.
+      </p>
+      <p>
+        The intricate balance of nature, honed over millennia, is being disrupted at an unprecedented pace. Our current path
+        threatens not only the diversity of life on Earth but the very foundation of human civilisation.
+      </p>
+    </div>
+  </Section>
+
+  <Section tone="muted" title="The consequences of disregard">
+    <FeatureGrid items={challenges} columns={4} align="center" />
+  </Section>
+
+  <Section title="The evolutionary timeline of consciousness" width="narrow">
+    <figure>
+      <Image src={mandala} alt="An intricate, colourful mandala pattern" widths={[640, 1000]} sizes="(min-width: 1024px) 56rem, 100vw" class="aspect-16/9 w-full rounded-card object-cover" />
+      <figcaption class="mx-auto mt-4 max-w-2xl text-center text-muted">
+        This mandala illustrates the unfolding journey of eco-spiritual evolution, from ancient reverence to a conscious
+        future. Each segment represents a pivotal era in humanity's deepening connection with the living Earth.
+      </figcaption>
+    </figure>
+  </Section>
+
+  <Section tone="muted" title="Deepening the weave" width="narrow">
+    <div class="space-y-6">
+      {
+        weave.map((item) => (
+          <article class="card p-6 lg:p-8">
+            <h3 class="text-2xl font-semibold text-brand-dark">{item.title}</h3>
+            <p class="mt-3 text-lg leading-relaxed text-muted">{item.text}</p>
+          </article>
+        ))
+      }
+    </div>
+  </Section>
+
+  <div class="container-page py-4">
+    <Image src={leafBanner} alt="" widths={[640, 1200]} sizes="100vw" class="h-24 w-full rounded-card object-cover sm:h-32" />
+  </div>
+
+  <Section>
+    <Quote quote="The earth is the Lord's, and the fulness thereof; the world, and they that dwell therein." cite="Psalm 24:1" />
+  </Section>
+
+  <CTA
+    title="Act now: make ethical choices for our future"
+    text="Every choice we make affects the delicate balance of our ecosystem. Join us in a lifestyle that honours Earth and secures a vibrant legacy for generations to come."
+    actions={[
+      { label: 'Discover how you can contribute', href: '/what-we-do' },
+      { label: 'Get in touch', href: '/contact' },
+    ]}
+  />
+</BaseLayout>

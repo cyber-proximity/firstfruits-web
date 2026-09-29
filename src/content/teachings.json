@@ -1,0 +1,105 @@
+[
+  {
+    "id": "t01",
+    "theme": "Presence & Inner Awakening",
+    "author": "Shri Nisargadatta Maharaj",
+    "quote": "Wisdom tells me I am nothing. Love tells me I am everything. Between the two, my life flows."
+  },
+  {
+    "id": "t02",
+    "theme": "Presence & Inner Awakening",
+    "author": "Buddha",
+    "quote": "Do not dwell in the past, do not dream of the future, concentrate the mind on the present moment."
+  },
+  {
+    "id": "t03",
+    "theme": "Presence & Inner Awakening",
+    "author": "Buddha",
+    "quote": "Peace comes from within. Do not seek it without."
+  },
+  {
+    "id": "t04",
+    "theme": "Sacred Earth Wisdom",
+    "author": "Chief Seattle",
+    "quote": "The earth does not belong to man; man belongs to the earth. All things are connected like the blood which unites one family.",
+    "image": "stream"
+  },
+  {
+    "id": "t05",
+    "theme": "Sacred Earth Wisdom",
+    "author": "Chief Seattle",
+    "quote": "Teach your children what we have taught our children: that the earth is our mother. Whatever befalls the earth befalls the sons of the earth.",
+    "image": "mountains-blue"
+  },
+  {
+    "id": "t06",
+    "theme": "Sacred Earth Wisdom",
+    "author": "African Proverb",
+    "quote": "What we do to the land, we do to ourselves.",
+    "image": "farm-field"
+  },
+  {
+    "id": "t07",
+    "theme": "Universal Love & Interconnectedness",
+    "author": "Rumi",
+    "quote": "You were born with wings, why prefer to crawl through life?"
+  },
+  {
+    "id": "t08",
+    "theme": "Universal Love & Interconnectedness",
+    "author": "Rumi",
+    "quote": "The wound is the place where the Light enters you.",
+    "image": "pink-heart"
+  },
+  {
+    "id": "t09",
+    "theme": "Universal Love & Interconnectedness",
+    "author": "Rumi",
+    "quote": "Love is the bridge between you and everything."
+  },
+  {
+    "id": "t10",
+    "theme": "Mindfulness & Compassion",
+    "author": "Thich Nhat Hanh",
+    "quote": "Walk as if you are kissing the Earth with your feet."
+  },
+  {
+    "id": "t11",
+    "theme": "Mindfulness & Compassion",
+    "author": "Thich Nhat Hanh",
+    "quote": "The most precious gift we can offer anyone is our attention. When mindfulness embraces those we love, they will bloom like flowers."
+  },
+  {
+    "id": "t12",
+    "theme": "Mindfulness & Compassion",
+    "author": "Thich Nhat Hanh",
+    "quote": "To be beautiful means to be yourself. You don’t need to be accepted by others. You need to accept yourself."
+  },
+  {
+    "id": "t13",
+    "theme": "Mindfulness & Compassion",
+    "author": "Thich Nhat Hanh",
+    "quote": "Understanding someone’s suffering is the best gift you can give another person."
+  },
+  {
+    "id": "t14",
+    "theme": "Compassion & Planetary Stewardship",
+    "author": "Supreme Master Ching Hai",
+    "quote": "The world needs love, peace, happiness and a plant-based diet. We should be kind to all living beings.",
+    "image": "green-tunnel"
+  },
+  {
+    "id": "t15",
+    "theme": "Compassion & Planetary Stewardship",
+    "author": "Supreme Master Ching Hai",
+    "quote": "Animals have souls; they feel pain and joy just like us.",
+    "image": "hand-light"
+  },
+  {
+    "id": "t16",
+    "theme": "Compassion & Planetary Stewardship",
+    "author": "Supreme Master Ching Hai",
+    "quote": "Be kind to every living thing, for kindness is the essence of spirituality.",
+    "image": "ocean-sun"
+  }
+]

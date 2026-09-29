@@ -1,0 +1,13 @@
+---
+import { Image } from 'astro:assets';
+// TEMPORARY: cropped from the client's phone screenshot. Replace with the original logo file (SVG preferred).
+import logo from '../assets/brand/logo-temp.png';
+import { site } from '../data/site';
+
+interface Props {
+  class?: string;
+}
+const { class: className = 'h-11 w-auto lg:h-12' } = Astro.props;
+---
+
+<Image src={logo} alt={`${site.name}: ${site.tagline}`} class={className} height={98} loading="eager" />

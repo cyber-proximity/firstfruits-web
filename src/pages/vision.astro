@@ -1,0 +1,122 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import PageHero from '../components/PageHero.astro';
+import Section from '../components/Section.astro';
+import SplitFeature from '../components/SplitFeature.astro';
+import FeatureGrid from '../components/FeatureGrid.astro';
+import ImageCardGrid from '../components/ImageCardGrid.astro';
+import Quote from '../components/Quote.astro';
+import QuoteGrid from '../components/QuoteGrid.astro';
+import CTA from '../components/CTA.astro';
+import type { Feature, QuoteItem } from '../lib/types';
+
+import heroImage from '../assets/placeholders/earth-globe.jpg';
+import familyCanvas from '../assets/placeholders/family-canvas.jpg';
+import citySunset from '../assets/placeholders/city-sunset.jpg';
+import greenTunnel from '../assets/placeholders/green-tunnel.jpg';
+import stirFry from '../assets/placeholders/stir-fry.jpg';
+import solar from '../assets/placeholders/solar.jpg';
+import meditationField from '../assets/placeholders/meditation-field.jpg';
+
+const resonances: Feature[] = [
+  { icon: 'zap', title: 'Energy & Consciousness', text: 'Everything in the universe vibrates at its own frequency, from subatomic particles to galaxies. Consciousness itself is a vibrational state.' },
+  { icon: 'sparkles', title: 'Mindful Resonance', text: 'Our thoughts and emotions generate powerful frequencies that shape our reality and influence global consciousness.' },
+  { icon: 'globe', title: 'Planetary Harmony', text: "Restoring planetary health means raising humanity's collective frequency to resonate with Earth's natural rhythms." },
+];
+
+const corePrinciples: Feature[] = [
+  { icon: 'leaf', title: 'Sustainability', text: 'Living in a way that meets the needs of the present without compromising future generations.' },
+  { icon: 'heart', title: 'Compassion', text: 'Extending empathy and kindness to all beings, recognising the value of every life in our global family.' },
+  { icon: 'globe', title: 'Coexistence', text: 'Cultivating harmony with nature and each other, knowing true prosperity comes from mutual respect.' },
+];
+
+const wisdom: QuoteItem[] = [
+  { quote: 'Do not dwell in the past, do not dream of the future, concentrate the mind on the present moment.', cite: 'Buddha' },
+  { quote: 'Three things cannot be long hidden: the sun, the moon, and the truth.', cite: 'Buddha' },
+  { quote: 'Peace comes from within. Do not seek it without.', cite: 'Buddha' },
+  { quote: 'The mind is everything. What you think you become.', cite: 'Buddha' },
+];
+---
+
+<BaseLayout
+  title="Future Vision"
+  description="Envisioning a conscious future for planetary health, where humanity lives in harmonious reverence for the Earth."
+>
+  <PageHero
+    variant="overlay"
+    eyebrow="Vision for the future"
+    title="Envisioning a conscious future for planetary health"
+    lead="Journey with us into a future where humanity lives in harmonious reverence for Earth, awakened by eco-spiritual consciousness and guided by the ancient wisdom of interconnectedness."
+    image={heroImage}
+    imageAlt=""
+    actions={[{ label: 'Join the conscious movement', href: '/contact' }]}
+  />
+
+  <Section>
+    <SplitFeature image={greenTunnel} imageAlt="A country lane running through a tunnel of green trees" title="The fabric of interconnectedness">
+      <p>
+        Every living being, every ecosystem and every element of our planet is woven into a grand, cosmic tapestry.
+        Understanding this interconnectedness is the first step towards true planetary health.
+      </p>
+      <p>Our actions, thoughts and intentions ripple through this web, affecting everything from the smallest microbe to the farthest star.</p>
+    </SplitFeature>
+  </Section>
+
+  <Section tone="muted" title="Harmonic resonances">
+    <FeatureGrid items={resonances} />
+  </Section>
+
+  <Section>
+    <SplitFeature image={citySunset} imageAlt="The sun setting over a city and hills" title="Eco-spiritual karma and Africa's paradigm shift" reverse>
+      <p>
+        The principle of karma extends beyond individual actions to our collective relationship with the Earth. The
+        ecological debt we incur through unsustainable practices is repaid through environmental imbalance.
+      </p>
+      <p>
+        Africa, a continent rich in natural resources and spiritual heritage, is poised to lead a profound shift. By
+        embracing ancient wisdom and sustainable innovation, it can light a path to a harmonious future, measuring prosperity
+        by ecological and spiritual well-being.
+      </p>
+    </SplitFeature>
+  </Section>
+
+  <Section tone="muted">
+    <Quote quote="What we do to the land, we do to ourselves." cite="African proverb" />
+  </Section>
+
+  <Section>
+    <SplitFeature image={familyCanvas} imageAlt="A family walking together along a forest path" title="The future is our collective canvas">
+      <p>
+        Every choice we make today paints a stroke on the canvas of tomorrow. From vibrant ecosystems to the conscious minds
+        who will inherit this Earth, our actions ripple through time.
+      </p>
+      <p>It is our sacred duty to ensure this legacy is one of reverence, abundance and interconnectedness.</p>
+    </SplitFeature>
+  </Section>
+
+  <Section tone="muted" title="Embracing core principles">
+    <FeatureGrid items={corePrinciples} align="center" />
+  </Section>
+
+  <Section title="Pathways to conscious living">
+    <ImageCardGrid
+      items={[
+        { image: stirFry, alt: '', title: 'Embrace plant-based living', text: 'Shift towards a diet rich in fruits, vegetables, grains and legumes for your well-being and the planet.', href: '/plant-based-living' },
+        { image: solar, alt: '', title: 'Adopt clean energy', text: 'Support renewable energy and reduce reliance on fossil fuels for a healthier planet.', href: '/what-we-do/clean-cooking' },
+        { image: meditationField, alt: '', title: 'Practise mindful consumption', text: 'Make conscious choices about what you consume, valuing quality, ethics and minimal waste.', href: '/our-path' },
+      ]}
+    />
+  </Section>
+
+  <Section tone="muted" title="Wisdom for the path ahead">
+    <QuoteGrid items={wisdom} columns={2} />
+  </Section>
+
+  <CTA
+    title="Your journey to a sacred future begins now"
+    actions={[
+      { label: 'Begin your transformation', href: '/contact' },
+      { label: 'Read our manifesto', href: '/manifesto' },
+    ]}
+  />
+</BaseLayout>

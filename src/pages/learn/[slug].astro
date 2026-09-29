@@ -1,0 +1,93 @@
+---
+import { Image } from 'astro:assets';
+import { getCollection, render } from 'astro:content';
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import Section from '../../components/Section.astro';
+import ImageCardGrid from '../../components/ImageCardGrid.astro';
+import Icon from '../../components/Icon.astro';
+import CTA from '../../components/CTA.astro';
+
+export async function getStaticPaths() {
+  const all = await getCollection('articles');
+  return all.map((entry) => ({
+    params: { slug: entry.id },
+    props: { entry, related: all.filter((a) => a.id !== entry.id && a.data.type === entry.data.type).slice(0, 3) },
+  }));
+}
+
+const { entry, related } = Astro.props;
+const { Content } = await render(entry);
+const { title, description, type, category, date, cover, coverAlt, duration, level, videoUrl } = entry.data;
+
+const typeLabel = { article: 'Article', video: 'Video', course: 'Course' }[type];
+const dateLabel = date.toLocaleDateString('en-GB', { day: 'numeric', month: 'long', year: 'numeric' });
+---
+
+<BaseLayout title={title} description={description} image={cover.src}>
+  <article>
+    <header class="bg-surface-muted">
+      <div class="container-page max-w-4xl py-12 lg:py-16">
+        <a href="/learn" class="inline-flex items-center gap-1.5 text-sm font-medium text-brand-dark hover:text-brand">
+          <Icon name="arrow-left" class="size-4" /> Learning hub
+        </a>
+        <p class="mt-6 flex flex-wrap items-center gap-3 text-sm text-muted">
+          <span class="chip">{typeLabel}</span>
+          <span>{category}</span>
+          {level && <span>{level}</span>}
+          {duration && <span class="inline-flex items-center gap-1"><Icon name="clock" class="size-4" />{duration}</span>}
+          {type === 'article' && <time datetime={date.toISOString()}>{dateLabel}</time>}
+        </p>
+        <h1 class="mt-4 text-4xl font-bold lg:text-5xl">{title}</h1>
+        <p class="mt-4 text-xl leading-relaxed text-muted">{description}</p>
+      </div>
+    </header>
+
+    <div class="container-page max-w-4xl py-12 lg:py-16">
+      {
+        type === 'video' && videoUrl ? (
+          <div class="aspect-video overflow-hidden rounded-card bg-ink">
+            <iframe src={videoUrl} title={title} class="size-full" loading="lazy" allow="encrypted-media; picture-in-picture" allowfullscreen />
+          </div>
+        ) : (
+          <Image src={cover} alt={coverAlt} widths={[640, 1000]} sizes="(min-width: 1024px) 56rem, 100vw" loading="eager" class="aspect-16/9 w-full rounded-card object-cover" />
+        )
+      }
+      <div class="prose mt-10">
+        <Content />
+      </div>
+      {
+        type === 'course' && (
+          <p class="mt-10">
+            <a href="/contact" class="btn btn-primary">Ask about the next start date</a>
+          </p>
+        )
+      }
+    </div>
+  </article>
+
+  {
+    related.length > 0 && (
+      <Section tone="muted" title={`More ${typeLabel.toLowerCase()}s`}>
+        <ImageCardGrid
+          items={related.map((a) => ({
+            image: a.data.cover,
+            alt: a.data.coverAlt,
+            title: a.data.title,
+            text: a.data.description,
+            href: `/learn/${a.id}`,
+            tag: a.data.category,
+          }))}
+        />
+      </Section>
+    )
+  }
+
+  <CTA
+    title="Continue your journey"
+    text="Explore our teachings or reach out to join a course or workshop."
+    actions={[
+      { label: 'Explore teachings', href: '/teachings' },
+      { label: 'Contact us', href: '/contact' },
+    ]}
+  />
+</BaseLayout>

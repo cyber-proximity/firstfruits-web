@@ -1,0 +1,60 @@
+---
+import { getCollection, render } from 'astro:content';
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import PageHero from '../../components/PageHero.astro';
+import Section from '../../components/Section.astro';
+import FeatureGrid from '../../components/FeatureGrid.astro';
+import CTA from '../../components/CTA.astro';
+
+export async function getStaticPaths() {
+  const programs = (await getCollection('programs')).sort((a, b) => a.data.order - b.data.order);
+  return programs.map((program) => ({
+    params: { slug: program.id },
+    props: { program, others: programs.filter((p) => p.id !== program.id) },
+  }));
+}
+
+const { program, others } = Astro.props;
+const { Content } = await render(program);
+const { title, summary, cover, coverAlt } = program.data;
+---
+
+<BaseLayout title={title} description={summary} image={cover.src}>
+  <PageHero
+    eyebrow="What we do"
+    title={title}
+    lead={summary}
+    image={cover}
+    imageAlt={coverAlt}
+    actions={[
+      { label: 'Get involved', href: '/contact' },
+      { label: 'All programmes', href: '/what-we-do#programmes' },
+    ]}
+  />
+
+  <Section>
+    <div class="prose mx-auto">
+      <Content />
+    </div>
+  </Section>
+
+  <Section tone="muted" title="More of our work">
+    <FeatureGrid
+      items={others.slice(0, 3).map((p) => ({
+        icon: p.data.icon,
+        title: p.data.title,
+        text: p.data.summary,
+        href: `/what-we-do/${p.id}`,
+      }))}
+    />
+  </Section>
+
+  <CTA
+    title="Help this work grow"
+    text="Partner with us, volunteer or support our programmes with a donation."
+    actions={[
+      { label: 'Get in touch', href: '/contact' },
+      { label: 'Donate', href: '/contact?topic=donation' },
+    ]}
+  />
+</BaseLayout>

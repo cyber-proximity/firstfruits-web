@@ -1,0 +1,32 @@
+---
+import Icon from './Icon.astro';
+
+interface Props {
+  quote: string;
+  cite?: string;
+  /** large: centred feature quote. card: bordered block. Use inverted on brand backgrounds. */
+  variant?: 'large' | 'card';
+  inverted?: boolean;
+}
+
+const { quote, cite, variant = 'large', inverted = false } = Astro.props;
+---
+
+{
+  variant === 'large' ? (
+    <figure class="mx-auto max-w-3xl text-center">
+      <Icon name="quote" class:list={['mx-auto size-10', inverted ? 'text-on-brand/70' : 'text-brand']} />
+      <blockquote class="mt-6 font-display text-2xl leading-snug italic lg:text-3xl">
+        <p>&ldquo;{quote}&rdquo;</p>
+      </blockquote>
+      {cite && <figcaption class:list={['mt-6 font-medium', !inverted && 'text-muted']}>&mdash; {cite}</figcaption>}
+    </figure>
+  ) : (
+    <figure class="card border-l-4 border-l-brand p-6 lg:p-8">
+      <blockquote class="font-display text-xl leading-relaxed italic">
+        <p>&ldquo;{quote}&rdquo;</p>
+      </blockquote>
+      {cite && <figcaption class="mt-4 text-sm font-medium text-muted">&mdash; {cite}</figcaption>}
+    </figure>
+  )
+}

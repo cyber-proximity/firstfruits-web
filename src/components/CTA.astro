@@ -1,0 +1,38 @@
+---
+import type { Action } from '../lib/types';
+import Actions from './Actions.astro';
+
+interface Props {
+  title: string;
+  text?: string;
+  actions: Action[];
+  /** brand: full-width red band. tint: pale rounded panel. */
+  tone?: 'brand' | 'tint';
+}
+
+const { title, text, actions, tone = 'brand' } = Astro.props;
+const onBrand = tone === 'brand';
+const buttons = onBrand ? actions.map((a) => ({ ...a, variant: a.variant ?? 'light' as const })) : actions;
+---
+
+{
+  onBrand ? (
+    <section class="bg-brand text-on-brand">
+      <div class="container-page py-16 text-center lg:py-20">
+        <h2 class="mx-auto max-w-3xl text-3xl font-semibold lg:text-4xl">{title}</h2>
+        {text && <p class="mx-auto mt-4 max-w-2xl text-lg leading-relaxed">{text}</p>}
+        <Actions actions={buttons} align="center" class="mt-8" />
+      </div>
+    </section>
+  ) : (
+    <section class="py-16 lg:py-20">
+      <div class="container-page">
+        <div class="rounded-card bg-brand-tint px-6 py-12 text-center sm:px-12 lg:py-16">
+          <h2 class="mx-auto max-w-3xl text-3xl font-semibold lg:text-4xl">{title}</h2>
+          {text && <p class="mx-auto mt-4 max-w-2xl text-lg leading-relaxed">{text}</p>}
+          <Actions actions={buttons} align="center" class="mt-8" />
+        </div>
+      </div>
+    </section>
+  )
+}

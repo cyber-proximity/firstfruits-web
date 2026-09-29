@@ -1,0 +1,43 @@
+---
+import { Image } from 'astro:assets';
+import type { QuoteItem } from '../lib/types';
+import Avatar from './Avatar.astro';
+
+interface Props {
+  items: QuoteItem[];
+  columns?: 2 | 3;
+}
+
+const { items, columns = 3 } = Astro.props;
+const cols = columns === 2 ? 'sm:grid-cols-2' : 'sm:grid-cols-2 lg:grid-cols-3';
+---
+
+<ul class:list={['grid gap-6', cols]}>
+  {
+    items.map((item) => (
+      <li class="card flex flex-col overflow-hidden">
+        {item.image && (
+          <Image
+            src={item.image}
+            alt=""
+            widths={[400, 700]}
+            sizes="(min-width: 1024px) 33vw, (min-width: 640px) 50vw, 100vw"
+            class="aspect-16/9 w-full object-cover"
+          />
+        )}
+        <figure class="flex flex-1 flex-col p-6 lg:p-8">
+          <blockquote class="font-display text-lg leading-relaxed italic">
+            <p>&ldquo;{item.quote}&rdquo;</p>
+          </blockquote>
+          <figcaption class="mt-auto flex items-center gap-3 pt-6">
+            {item.role && <Avatar name={item.cite} class="size-11 text-sm" />}
+            <span>
+              <span class="block text-sm font-semibold">{item.role ? item.cite : `— ${item.cite}`}</span>
+              {item.role && <span class="block text-sm text-muted">{item.role}</span>}
+            </span>
+          </figcaption>
+        </figure>
+      </li>
+    ))
+  }
+</ul>

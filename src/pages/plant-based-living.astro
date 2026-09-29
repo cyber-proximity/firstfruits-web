@@ -1,0 +1,119 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import PageHero from '../components/PageHero.astro';
+import Section from '../components/Section.astro';
+import SplitFeature from '../components/SplitFeature.astro';
+import FeatureGrid from '../components/FeatureGrid.astro';
+import QuoteGrid from '../components/QuoteGrid.astro';
+import Icon from '../components/Icon.astro';
+import CTA from '../components/CTA.astro';
+import type { Feature, QuoteItem } from '../lib/types';
+import type { IconName } from '../lib/icons';
+
+import heroImage from '../assets/placeholders/stir-fry.jpg';
+import riverPark from '../assets/placeholders/river-park.jpg';
+import veganCrowd from '../assets/placeholders/vegan-crowd.jpg';
+
+const principles: { icon: IconName; title: string; text: string }[] = [
+  { icon: 'check', title: 'Purity', text: 'Natural, unprocessed foods purify the body and mind, fostering clarity and heightened awareness.' },
+  { icon: 'heart', title: 'Compassion', text: 'A plant-based diet reduces harm to living beings, aligning with universal compassion and a gentle spirit.' },
+  { icon: 'sprout', title: 'Mindful Eating', text: "Eating with attention deepens appreciation for nature's gifts and brings a sacred dimension to daily meals." },
+  { icon: 'leaf', title: 'Connection to Nature', text: 'Eating directly from the earth strengthens our bond with ecological cycles and the vital energy of the planet.' },
+  { icon: 'sparkles', title: 'Karma & Ethical Living', text: 'Choosing foods that promote the well-being of all beings contributes to spiritual growth.' },
+];
+
+const reasons: Feature[] = [
+  { icon: 'heart', title: 'Compassionate Living', text: 'A lifestyle that respects all sentient beings, reducing suffering and fostering a kinder world for animals.' },
+  { icon: 'globe', title: 'Planetary Stewardship', text: 'Plant-based diets significantly reduce environmental impact, contributing to a healthier planet.' },
+  { icon: 'leaf', title: 'Optimal Well-being', text: 'Whole-food, plant-based eating supports vitality and longevity.' },
+  { icon: 'salad', title: 'Delicious Cuisine', text: 'A world of vibrant flavours and recipes that make plant-based eating a culinary adventure.' },
+  { icon: 'activity', title: 'Sustainable Practices', text: 'Plant-based food uses less water and land and produces fewer greenhouse gas emissions.' },
+  { icon: 'users', title: 'Global Community', text: 'Join millions worldwide in a movement for ethical food choices and sustainable living.' },
+];
+
+// PLACEHOLDER testimonials from the design drafts. Replace with real ones before launch.
+const voices: QuoteItem[] = [
+  { quote: 'First Fruits has transformed my relationship with food. I feel more energised, connected and truly nourished, in body and soul.', cite: 'Anya Sharma', role: 'Wellness coach' },
+  { quote: 'The meals are not just delicious; they are a mindful journey. I appreciate the focus on sustainability and spiritual harmony.', cite: 'Kai Peterson', role: 'Environmental advocate' },
+  { quote: 'Finding this community was a blessing. The recipes are simple yet profound, guiding me to a healthier, more conscious lifestyle.', cite: 'Elara Vance', role: 'Yoga instructor' },
+];
+---
+
+<BaseLayout
+  title="Plant-Based Living"
+  description="Nourish your spirit and sustain our Earth through plant-based nutrition, mindful eating and World Vegan Day celebrations."
+>
+  <PageHero
+    eyebrow="Plant-based living"
+    title="Nourish your spirit, sustain our Earth"
+    lead="Embrace a mindful path to holistic wellness through plant-based nutrition and a deep connection to nature's wisdom."
+    image={heroImage}
+    imageAlt="A wok of freshly stir-fried green beans with chilli"
+    actions={[
+      { label: 'Why plant-based?', href: '#why' },
+      { label: 'Join a workshop', href: '/contact' },
+    ]}
+  />
+
+  <Section>
+    <SplitFeature image={riverPark} imageAlt="A calm river winding through a green park with palm trees" title="Our philosophy: harmony in every bite">
+      <p>
+        True wellness stems from a harmonious relationship with ourselves and the natural world. The food we eat connects
+        our spiritual well-being with the health of our planet.
+      </p>
+      <p>
+        We share nourishing plant-based meals and recipes, with ingredients thoughtfully sourced to honour the Earth's
+        rhythms from farm to table.
+      </p>
+    </SplitFeature>
+  </Section>
+
+  <Section tone="tint" title="Wholesome diets & enhanced spirituality" intro="A wholesome, plant-based diet profoundly enhances spiritual well-being through several core principles." width="narrow">
+    <ul class="space-y-4">
+      {
+        principles.map((p) => (
+          <li class="flex gap-4 rounded-card bg-surface p-5">
+            <Icon name={p.icon} class="mt-0.5 size-6 shrink-0 text-brand" />
+            <p class="leading-relaxed">
+              <strong class="font-semibold">{p.title}:</strong> <span class="text-muted">{p.text}</span>
+            </p>
+          </li>
+        ))
+      }
+    </ul>
+  </Section>
+
+  <Section id="why" title="Why choose a plant-based path?">
+    <FeatureGrid items={reasons} />
+  </Section>
+
+  <Section tone="muted">
+    <SplitFeature
+      image={veganCrowd}
+      imageAlt="Dancers in traditional dress performing at an outdoor celebration"
+      eyebrow="World Vegan Day, 1 November"
+      title="Join the global vegan celebration"
+      reverse
+      actions={[{ label: 'Find local events', href: '/contact' }]}
+    >
+      <p>
+        World Vegan Day celebrates the power of plant-based living and its impact on animals, our health and the
+        environment. It is a day to inspire, educate and share the joy of a compassionate lifestyle.
+      </p>
+      <p>Join our events, festivals and community gatherings, meet like-minded people and make a tangible difference.</p>
+    </SplitFeature>
+  </Section>
+
+  <Section title="Voices of our community">
+    <QuoteGrid items={voices} />
+  </Section>
+
+  <CTA
+    title="Ready to transform your wellness?"
+    text="Join the First Fruits community and embark on a path of nourished body, mind and soul."
+    actions={[
+      { label: 'Get started', href: '/contact' },
+      { label: 'Explore courses', href: '/learn#courses' },
+    ]}
+  />
+</BaseLayout>

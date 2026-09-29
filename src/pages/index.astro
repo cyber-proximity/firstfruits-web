@@ -1,0 +1,140 @@
+---
+import { getCollection } from 'astro:content';
+import BaseLayout from '../layouts/BaseLayout.astro';
+import PageHero from '../components/PageHero.astro';
+import Section from '../components/Section.astro';
+import FeatureGrid from '../components/FeatureGrid.astro';
+import ImageCardGrid from '../components/ImageCardGrid.astro';
+import SplitFeature from '../components/SplitFeature.astro';
+import StatGrid from '../components/StatGrid.astro';
+import Quote from '../components/Quote.astro';
+import QuoteGrid from '../components/QuoteGrid.astro';
+import CTA from '../components/CTA.astro';
+import { site } from '../data/site';
+import type { Feature, Stat, QuoteItem } from '../lib/types';
+
+import heroImage from '../assets/placeholders/home-waterfall.jpg';
+import treeOfLife from '../assets/placeholders/tree-of-life.jpg';
+import mandala from '../assets/placeholders/mandala.jpg';
+import family from '../assets/placeholders/family.jpg';
+import meditation from '../assets/placeholders/meditation-lights.jpg';
+
+const programs = (await getCollection('programs')).sort((a, b) => a.data.order - b.data.order).slice(0, 3);
+
+const principles: Feature[] = [
+  { icon: 'leaf', title: 'Nature as Teacher', text: "The forest breathes ancient secrets and the rivers sing timeless truths. We learn from Earth's rhythms, finding balance and resilience in every living being." },
+  { icon: 'sparkles', title: 'Conscious Co-creation', text: 'Every thought and action is a ripple in the cosmic ocean. We consciously choose to create a future where humanity thrives in sacred reciprocity with all life.' },
+  { icon: 'sun', title: 'Inner & Outer Harmony', text: 'True change begins within. By cultivating inner peace, we radiate harmony outwards, healing ourselves and the world around us.' },
+];
+
+const offerings: Feature[] = [
+  { icon: 'flower', title: 'Mindful Practices', text: 'Cultivate inner peace and presence through guided meditation, breathwork and ancient wisdom traditions.' },
+  { icon: 'sprout', title: 'Community Gardens', text: 'Grow food together in sustainable gardens, fostering local ecosystems and shared nourishment for all.' },
+  { icon: 'mountain', title: 'Nature Retreats', text: 'Immerse yourself in natural landscapes, finding rejuvenation and deep connection away from the urban hustle.' },
+  { icon: 'palette', title: 'Sacred Arts & Crafts', text: 'Unleash creativity through earth-inspired artistry, connecting with ancestral crafts and expressive forms.' },
+  { icon: 'heart', title: 'Holistic Wellness', text: 'Embrace integrated well-being with workshops on herbalism, plant-based nutrition and conscious living.' },
+  { icon: 'tree', title: 'Earth Stewardship', text: "Take part in conservation efforts and learn practical steps for protecting our planet's biodiversity." },
+];
+
+// PLACEHOLDER figures from the design drafts. Replace with real numbers before launch.
+const stats: Stat[] = [
+  { icon: 'users', value: '5,000+', label: 'Lives empowered each year' },
+  { icon: 'sprout', value: '50+', label: 'Community projects completed' },
+  { icon: 'globe', value: '12', label: 'Global partnerships' },
+];
+
+// PLACEHOLDER testimonials from the design drafts. Replace with real ones before launch.
+const voices: QuoteItem[] = [
+  { quote: 'This community has transformed my understanding of what it means to live harmoniously. The peace I have found here is truly invaluable.', cite: 'Elara Vance', role: 'Community member' },
+  { quote: 'Embracing a plant-based life has opened my heart to a deeper connection with all beings and a profound sense of peace.', cite: 'Maria Rodriguez', role: 'Volunteer' },
+  { quote: 'Discovering First Fruits changed my life. I now live with purpose and strive to inspire others to care for the Earth.', cite: 'Kai Peterson', role: 'Environmental advocate' },
+];
+---
+
+<BaseLayout title={site.name} description={site.description}>
+  <PageHero
+    variant="soft"
+    eyebrow="A living practice"
+    title="Cultivating a more awakened world."
+    lead={site.description}
+    image={heroImage}
+    imageAlt=""
+    actions={[
+      { label: 'Discover our story', href: '/about' },
+      { label: 'Join the movement', href: '/contact' },
+    ]}
+  />
+
+  <Section title="Our Guiding Principles" intro="Rooted in ancient wisdom and a reverence for all life, these principles shape everything we do.">
+    <FeatureGrid items={principles} />
+  </Section>
+
+  <Section tone="muted">
+    <SplitFeature
+      image={treeOfLife}
+      imageAlt="A great old tree with wide, spreading roots"
+      eyebrow="Awakening eco-spiritual consciousness"
+      title="From radiant inner light to planetary stewardship"
+      actions={[{ label: 'Read our manifesto', href: '/manifesto' }]}
+    >
+      <p>
+        We believe in the profound interconnectedness of all life. Our journey begins with the recognition that our inner
+        spirit is inextricably linked to the well-being of the Earth.
+      </p>
+      <p>
+        This awakening is not merely intellectual; it is a heart-centred transformation. Planetary stewardship is not a
+        burden but a privilege, an active expression of our love for life.
+      </p>
+    </SplitFeature>
+  </Section>
+
+  <Section title="Our Path to Wholeness" intro="Enriching programmes and practices designed to nourish your spirit and connect you with the natural world.">
+    <FeatureGrid items={offerings} />
+  </Section>
+
+  <Section tone="muted" title="What We Do" intro="Practical programmes that heal the land and empower the communities who depend on it.">
+    <ImageCardGrid
+      items={programs.map((p) => ({
+        image: p.data.cover,
+        alt: p.data.coverAlt,
+        title: p.data.title,
+        text: p.data.summary,
+        href: `/what-we-do/${p.id}`,
+      }))}
+    />
+    <p class="mt-10 text-center">
+      <a href="/what-we-do" class="btn btn-outline">See all our work</a>
+    </p>
+  </Section>
+
+  <Section title="Our Impact at a Glance" intro="The tangible difference made possible by our team, partners and community.">
+    <StatGrid items={stats} />
+  </Section>
+
+  <Section tone="muted" title="Journey to Awakened Living">
+    <ImageCardGrid
+      items={[
+        { image: mandala, alt: '', title: 'Explore Our Manifesto', text: 'Delve into the principles that guide our journey towards a more awakened and compassionate existence.', href: '/manifesto', linkLabel: 'Read the manifesto' },
+        { image: family, alt: '', title: 'Join the Community', text: 'Connect with kindred spirits, share insights and co-create a future rooted in eco-spiritual values.', href: '/contact', linkLabel: 'Connect now' },
+        { image: meditation, alt: '', title: 'Embrace Mindful Living', text: 'Practical steps for daily transformation. Bring sustainable, compassionate choices into everyday life.', href: '/our-path', linkLabel: 'Discover practices' },
+      ]}
+    />
+  </Section>
+
+  <Section>
+    <Quote quote="The Earth does not belong to us; we belong to the Earth." cite="Chief Seattle" />
+  </Section>
+
+  <Section tone="muted" title="Voices of Our Community">
+    <QuoteGrid items={voices} />
+  </Section>
+
+  <CTA
+    title="Ready to begin your journey?"
+    text="Join our growing community and discover a path to peace, purpose and profound connection."
+    actions={[
+      { label: 'Join our community', href: '/contact' },
+      { label: 'Support our work', href: '/contact?topic=donation' },
+    ]}
+  />
+</BaseLayout>

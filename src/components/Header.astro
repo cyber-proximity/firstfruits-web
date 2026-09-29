@@ -1,0 +1,149 @@
+---
+import Logo from './Logo.astro';
+import { mainNav, donateLink, isGroup, type NavGroup } from '../data/site';
+
+const path = Astro.url.pathname.replace(/\/$/, '') || '/';
+// A link is current on its own page and on any page below it (e.g. /learn and /learn/some-article)
+const isCurrent = (href: string) => path === href || (href !== '/' && path.startsWith(href + '/'));
+const groupIsCurrent = (group: NavGroup) => group.links.some((l) => isCurrent(l.href));
+
+const linkBase = 'rounded-button px-3 py-2 text-[0.9375rem] font-medium transition-colors hover:text-brand';
+---
+
+<header class="sticky top-0 z-40 bg-surface shadow-header">
+  <div class="container-page flex h-18 items-center justify-between gap-6 lg:h-20">
+    <a href="/" class="shrink-0" aria-label="First Fruits home">
+      <Logo />
+    </a>
+
+    <!-- Desktop navigation -->
+    <nav aria-label="Main" class="hidden items-center gap-6 lg:flex">
+      <ul class="flex items-center gap-1">
+        {
+          mainNav.map((item) =>
+            isGroup(item) ? (
+              <li class="relative">
+                <details data-dropdown class="group">
+                  <summary
+                    class:list={[linkBase, 'flex cursor-pointer items-center gap-1', groupIsCurrent(item) && 'text-brand']}
+                  >
+                    {item.label}
+                    <svg class="size-4 transition-transform group-open:rotate-180" viewBox="0 0 20 20" fill="currentColor" aria-hidden="true">
+                      <path fill-rule="evenodd" d="M5.23 7.21a.75.75 0 0 1 1.06.02L10 11.17l3.71-3.94a.75.75 0 1 1 1.08 1.04l-4.25 4.5a.75.75 0 0 1-1.08 0l-4.25-4.5a.75.75 0 0 1 .02-1.06Z" clip-rule="evenodd" />
+                    </svg>
+                  </summary>
+                  <ul class="absolute left-0 top-full mt-2 min-w-56 rounded-card border border-line bg-surface p-2 shadow-lg">
+                    {item.links.map((link) => (
+                      <li>
+                        <a
+                          href={link.href}
+                          aria-current={isCurrent(link.href) ? 'page' : undefined}
+                          class:list={[
+                            'block rounded-button px-3 py-2 text-[0.9375rem] hover:bg-brand-tint hover:text-brand-dark',
+                            isCurrent(link.href) && 'text-brand',
+                          ]}
+                        >
+                          {link.label}
+                        </a>
+                      </li>
+                    ))}
+                  </ul>
+                </details>
+              </li>
+            ) : (
+              <li>
+                <a
+                  href={item.href}
+                  aria-current={isCurrent(item.href) ? 'page' : undefined}
+                  class:list={[linkBase, 'block', isCurrent(item.href) && 'text-brand']}
+                >
+                  {item.label}
+                </a>
+              </li>
+            ),
+          )
+        }
+      </ul>
+      <a href={donateLink.href} class="btn btn-primary px-5 py-2.5">{donateLink.label}</a>
+    </nav>
+
+    <!-- Mobile navigation -->
+    <details data-mobile-menu class="group lg:hidden">
+      <summary class="-mr-2 flex cursor-pointer items-center rounded-button p-2 text-ink">
+        <span class="sr-only">Menu</span>
+        <svg class="size-7 group-open:hidden" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true">
+          <path stroke-linecap="round" d="M4 6h16M4 12h16M4 18h16" />
+        </svg>
+        <svg class="hidden size-7 group-open:block" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true">
+          <path stroke-linecap="round" d="M6 6l12 12M18 6L6 18" />
+        </svg>
+      </summary>
+
+      <div class="absolute inset-x-0 top-full max-h-[calc(100dvh-4.5rem)] overflow-y-auto border-t border-line bg-surface shadow-lg">
+        <nav aria-label="Main" class="container-page py-4">
+          <ul class="divide-y divide-line">
+            {
+              mainNav.map((item) =>
+                isGroup(item) ? (
+                  <li class="py-3">
+                    <p class="px-1 pb-1 text-xs font-semibold uppercase tracking-[0.15em] text-muted">{item.label}</p>
+                    <ul>
+                      {item.links.map((link) => (
+                        <li>
+                          <a
+                            href={link.href}
+                            aria-current={isCurrent(link.href) ? 'page' : undefined}
+                            class:list={['block rounded-button px-1 py-2 text-lg', isCurrent(link.href) && 'text-brand']}
+                          >
+                            {link.label}
+                          </a>
+                        </li>
+                      ))}
+                    </ul>
+                  </li>
+                ) : (
+                  <li class="py-3">
+                    <a
+                      href={item.href}
+                      aria-current={isCurrent(item.href) ? 'page' : undefined}
+                      class:list={['block rounded-button px-1 py-2 text-lg', isCurrent(item.href) && 'text-brand']}
+                    >
+                      {item.label}
+                    </a>
+                  </li>
+                ),
+              )
+            }
+          </ul>
+          <a href={donateLink.href} class="btn btn-primary mt-4 w-full">{donateLink.label}</a>
+        </nav>
+      </div>
+    </details>
+  </div>
+</header>
+
+<script>
+  // Progressive enhancement for the <details> menus (they already work without JS):
+  // one menu open at a time, close on outside click or Escape.
+  const menus = [...document.querySelectorAll<HTMLDetailsElement>('[data-dropdown], [data-mobile-menu]')];
+
+  const closeAll = (except?: HTMLDetailsElement) => menus.forEach((m) => m !== except && (m.open = false));
+
+  menus.forEach((menu) => menu.addEventListener('toggle', () => menu.open && closeAll(menu)));
+
+  document.addEventListener('click', (e) => {
+    if (!menus.some((m) => m.contains(e.target as Node))) closeAll();
+  });
+
+  document.addEventListener('keydown', (e) => {
+    if (e.key !== 'Escape') return;
+    const open = menus.find((m) => m.open);
+    if (open) {
+      open.open = false;
+      open.querySelector('summary')?.focus();
+    }
+  });
+
+  // Close the mobile menu if the window grows to desktop width.
+  window.matchMedia('(min-width: 64rem)').addEventListener('change', (e) => e.matches && closeAll());
+</script>

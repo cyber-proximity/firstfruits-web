@@ -1,0 +1,37 @@
+---
+import type { Action } from '../lib/types';
+import Icon from './Icon.astro';
+
+interface Props {
+  actions: Action[];
+  align?: 'left' | 'center';
+  class?: string;
+}
+
+const { actions, align = 'left', class: className } = Astro.props;
+const variantClass = {
+  primary: 'btn-primary',
+  secondary: 'btn-secondary',
+  light: 'btn-light',
+  outline: 'btn-outline',
+};
+---
+
+{
+  actions.length > 0 && (
+    <div
+      class:list={[
+        'flex flex-col gap-3 sm:flex-row sm:flex-wrap',
+        align === 'center' ? 'items-center sm:justify-center' : 'items-start',
+        className,
+      ]}
+    >
+      {actions.map((action, i) => (
+        <a href={action.href} class:list={['btn', variantClass[action.variant ?? (i === 0 ? 'primary' : 'secondary')]]}>
+          {action.label}
+          {i === 0 && <Icon name="arrow-up-right" class="size-4" />}
+        </a>
+      ))}
+    </div>
+  )
+}

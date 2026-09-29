@@ -1,0 +1,83 @@
+---
+import { Image } from 'astro:assets';
+import { getCollection } from 'astro:content';
+import BaseLayout from '../layouts/BaseLayout.astro';
+import PageHero from '../components/PageHero.astro';
+import Section from '../components/Section.astro';
+import SplitFeature from '../components/SplitFeature.astro';
+import FeatureGrid from '../components/FeatureGrid.astro';
+import Avatar from '../components/Avatar.astro';
+import CTA from '../components/CTA.astro';
+import type { Feature } from '../lib/types';
+
+import heroImage from '../assets/placeholders/forest-sunburst.jpg';
+import groupImage from '../assets/placeholders/team-group.jpg';
+
+// Team members live in src/content/team/. PLACEHOLDER names from the design drafts.
+const team = (await getCollection('team')).sort((a, b) => a.data.order - b.data.order);
+
+const expertise: Feature[] = [
+  { icon: 'flame', title: 'Biochar & Carbon Removal', text: 'Sustainable carbon sequestration through biochar production and application.', tags: ['Carbon analysts', 'Research scientists'] },
+  { icon: 'globe', title: 'Ecological Systems & Biodiversity', text: 'Protecting and restoring natural habitats and understanding complex ecosystems.', tags: ['Ecologists', 'Foresters', 'Conservationists'] },
+  { icon: 'sprout', title: 'Sustainable Agriculture & Soil Health', text: 'Farming practices that improve soil fertility, use resources wisely and reduce impact.', tags: ['Agronomists', 'Soil scientists'] },
+  { icon: 'scale', title: 'Climate Policy & Strategy', text: 'Turning scientific insight into practical policies and models for climate action.', tags: ['Policy advisers', 'Economists'] },
+  { icon: 'salad', title: 'Plant-Based Nutrition & Health', text: 'Advancing plant-based dietary principles for human health and planetary well-being.', tags: ['Nutritionists', 'Health advocates'] },
+  { icon: 'users', title: 'Community Engagement', text: 'Local partnerships, education and economic opportunities for resilient communities.', tags: ['Community liaisons', 'Outreach coordinators'] },
+];
+---
+
+<BaseLayout
+  title="Our Team"
+  description="Meet the visionary team behind First Fruits: spiritual teachers, scientists, farmers and community builders united by one purpose."
+>
+  <PageHero
+    eyebrow="Our team"
+    title="Nurturing Earth, cultivating spirit"
+    lead="We are a dedicated collective of sustainability professionals and spiritual practitioners, united by a commitment to plant-based ethics and a holistic approach to spirituality."
+    image={heroImage}
+    imageAlt="Soft light falling through a misty forest"
+    actions={[{ label: 'Learn about our mission', href: '/about' }]}
+  />
+
+  <Section>
+    <SplitFeature image={groupImage} imageAlt="A circle of people joining hands in the middle" title="Our interdisciplinary collective">
+      <p>
+        We bring together a unique blend of scientific, agricultural, spiritual and community expertise to tackle the most
+        pressing environmental challenges of our time.
+      </p>
+      <p>Our collaborative spirit and shared commitment to innovation are the driving forces behind our work.</p>
+    </SplitFeature>
+  </Section>
+
+  <Section tone="muted" title="Meet our dedicated team">
+    <ul class="grid gap-6 sm:grid-cols-2 lg:grid-cols-4">
+      {
+        team.map(({ data }) => (
+          <li class="card flex flex-col items-center p-6 text-center">
+            {data.photo ? (
+              <Image src={data.photo} alt={`Portrait of ${data.name}`} width={160} height={160} class="size-24 rounded-full object-cover" />
+            ) : (
+              <Avatar name={data.name} class="size-24 text-2xl" />
+            )}
+            <h3 class="mt-5 text-xl font-semibold">{data.name}</h3>
+            <p class="mt-1 text-sm font-medium text-brand-dark">{data.role}</p>
+            <p class="mt-4 text-sm leading-relaxed text-muted">{data.bio}</p>
+          </li>
+        ))
+      }
+    </ul>
+  </Section>
+
+  <Section title="Our core expertise" intro="Diverse expertise, shared vision.">
+    <FeatureGrid items={expertise} />
+  </Section>
+
+  <CTA
+    title="Driving global sustainability forward"
+    text="Advancing climate action, restoring ecological balance and empowering communities, together."
+    actions={[
+      { label: 'Discover our work', href: '/what-we-do' },
+      { label: 'Work with us', href: '/contact' },
+    ]}
+  />
+</BaseLayout>

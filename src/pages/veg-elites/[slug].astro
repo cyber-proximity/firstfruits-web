@@ -1,0 +1,86 @@
+---
+import { Image } from 'astro:assets';
+import { getCollection, render } from 'astro:content';
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import Section from '../../components/Section.astro';
+import FeatureGrid from '../../components/FeatureGrid.astro';
+import Avatar from '../../components/Avatar.astro';
+import Icon from '../../components/Icon.astro';
+import CTA from '../../components/CTA.astro';
+
+export async function getStaticPaths() {
+  const profiles = (await getCollection('profiles')).sort((a, b) => a.data.order - b.data.order);
+  return profiles.map((profile) => ({
+    params: { slug: profile.id },
+    props: { profile, others: profiles.filter((p) => p.id !== profile.id).slice(0, 3) },
+  }));
+}
+
+const { profile, others } = Astro.props;
+const { Content } = await render(profile);
+const { name, title, tagline, summary, photo, principles } = profile.data;
+---
+
+<BaseLayout title={`${name}, VEG ELITES`} description={summary} image={photo?.src}>
+  <section class="bg-surface-muted">
+    <div class="container-page grid items-center gap-10 py-12 lg:grid-cols-5 lg:gap-16 lg:py-20">
+      <div class="lg:col-span-2">
+        {
+          photo ? (
+            <Image src={photo} alt={`Portrait of ${name}`} widths={[400, 700]} sizes="(min-width: 1024px) 40vw, 100vw" loading="eager" class="aspect-4/5 w-full rounded-card object-cover" />
+          ) : (
+            <div class="flex aspect-4/3 w-full max-w-md items-center justify-center rounded-card bg-brand-tint lg:aspect-square">
+              <Avatar name={name} class="size-36 text-5xl" light />
+            </div>
+          )
+        }
+      </div>
+      <div class="lg:col-span-3">
+        <a href="/veg-elites" class="inline-flex items-center gap-1.5 text-sm font-medium text-brand-dark hover:text-brand">
+          <Icon name="arrow-left" class="size-4" /> All VEG ELITES
+        </a>
+        <h1 class="mt-6 text-4xl font-bold text-brand-dark lg:text-6xl">{name}</h1>
+        <p class="mt-3 text-xl font-medium">{title}</p>
+        <p class="mt-6 font-display text-2xl leading-snug italic text-muted">{tagline}</p>
+      </div>
+    </div>
+  </section>
+
+  <Section>
+    <div class="prose mx-auto">
+      <Content />
+    </div>
+  </Section>
+
+  {
+    principles && (
+      <Section tone="muted" title="Core principles of nurturing and ethical living">
+        <FeatureGrid items={principles} />
+      </Section>
+    )
+  }
+
+  <Section title="Meet more VEG ELITES">
+    <ul class="grid gap-6 sm:grid-cols-3">
+      {
+        others.map((p) => (
+          <li class="card relative flex flex-col items-center p-6 text-center">
+            <Avatar name={p.data.name} class="size-16 text-xl" />
+            <h2 class="mt-4 text-lg font-semibold">
+              <a href={`/veg-elites/${p.id}`} class="after:absolute after:inset-0 hover:text-brand-dark">
+                {p.data.name}
+              </a>
+            </h2>
+            <p class="mt-1 text-sm text-muted">{p.data.title}</p>
+          </li>
+        ))
+      }
+    </ul>
+  </Section>
+
+  <CTA
+    title="Join the VEG ELITES movement"
+    text="Be part of a global community dedicated to ethical living, spiritual growth and a tangible difference in the world."
+    actions={[{ label: 'Join our community', href: '/contact' }]}
+  />
+</BaseLayout>

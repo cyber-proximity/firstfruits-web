@@ -1,0 +1,65 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import PageHero from '../components/PageHero.astro';
+import Section from '../components/Section.astro';
+import StatGrid from '../components/StatGrid.astro';
+import FeatureGrid from '../components/FeatureGrid.astro';
+import CTA from '../components/CTA.astro';
+import type { Feature, Stat } from '../lib/types';
+
+import heroImage from '../assets/placeholders/clean-cooking.jpg';
+
+// PLACEHOLDER: the goal and figures below come from the design drafts.
+// Replace them with First Fruits' real targets and results before launch.
+const stats: Stat[] = [
+  { icon: 'flame', value: '1,079,225+', label: 'Cookstoves distributed' },
+  { icon: 'heart', value: '140,159+', label: 'Lives improved each year' },
+  { icon: 'lightbulb', value: '37,002+', label: 'Jobs created' },
+  { icon: 'clock', value: '4,405,000+', label: 'Hours saved daily' },
+];
+
+const areas: Feature[] = [
+  { icon: 'tree', title: 'Forest Restoration', text: 'Efficient cooking reduces the deforestation caused by firewood, letting vital ecosystems regrow.' },
+  { icon: 'sprout', title: 'Food Sovereignty', text: 'Lower fuel costs free up resources for local food production and empower communities.' },
+  { icon: 'coins', title: 'Poverty Alleviation', text: 'Families save money on fuel and gain new economic opportunities.' },
+  { icon: 'graduation', title: 'Education', text: 'Less time collecting fuel means children, especially girls, can attend school more regularly.' },
+  { icon: 'scale', title: 'Gender Equality', text: 'Women and girls bear the brunt of traditional cooking. Clean stoves free up their time and reduce health risks.' },
+  { icon: 'building', title: 'Sustainable Cities', text: 'Cleaner air from better cooking contributes to healthier urban environments.' },
+  { icon: 'leaf', title: 'Life on Land', text: 'Our work protects forests and natural habitats, preserving precious biodiversity.' },
+  { icon: 'wind', title: 'Climate Mitigation', text: 'Reducing emissions from traditional biomass burning helps combat climate change.' },
+];
+---
+
+<BaseLayout
+  title="Impact"
+  description="Transforming lives, restoring Earth: the measurable impact of First Fruits' clean cooking, regenerative and community programmes."
+>
+  <PageHero
+    eyebrow="Our '10 Million by 2030' goal"
+    title="Transforming lives, restoring Earth"
+    lead="Our mission is to empower 10 million lives by 2030 through clean cooking, regenerative agriculture and community programmes, fostering health, economic growth and environmental resilience."
+    image={heroImage}
+    imageAlt="A woman tending a wood-fired metal drum stove"
+    actions={[
+      { label: 'Discover our work', href: '/what-we-do' },
+      { label: 'Support the goal', href: '/contact?topic=donation' },
+    ]}
+  />
+
+  <Section title="Measurable blessings: our impact so far">
+    <StatGrid items={stats} />
+  </Section>
+
+  <Section tone="muted" title="Holistic impact: beyond clean cooking" intro="Every stove, tree and training session creates ripples across health, livelihoods and the living world.">
+    <FeatureGrid items={areas} columns={4} />
+  </Section>
+
+  <CTA
+    title="Be part of the clean cooking movement"
+    text="Your support brings clean cooking to millions. Together we can create healthier homes, empower communities and protect our planet."
+    actions={[
+      { label: 'Join the movement', href: '/contact' },
+      { label: 'Donate', href: '/contact?topic=donation' },
+    ]}
+  />
+</BaseLayout>

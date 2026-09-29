@@ -1,0 +1,17 @@
+---
+// Shown after the contact form is submitted without JavaScript. Excluded from the sitemap.
+import BaseLayout from '../layouts/BaseLayout.astro';
+import PageHero from '../components/PageHero.astro';
+---
+
+<BaseLayout title="Thank you" description="Your message has been sent to First Fruits." noindex>
+  <PageHero
+    eyebrow="Message sent"
+    title="Thank you for reaching out"
+    lead="Your message is on its way to our team. We usually reply within two working days."
+    actions={[
+      { label: 'Back to home', href: '/' },
+      { label: 'Explore our work', href: '/what-we-do' },
+    ]}
+  />
+</BaseLayout>

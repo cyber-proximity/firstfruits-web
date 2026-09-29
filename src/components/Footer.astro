@@ -1,0 +1,65 @@
+---
+import Logo from './Logo.astro';
+import { site, mainNav, donateLink, isGroup } from '../data/site';
+
+const groups = mainNav.filter(isGroup);
+const year = new Date().getFullYear();
+---
+
+<footer class="border-t border-line bg-surface-muted">
+  <div class="container-page grid gap-10 py-12 lg:grid-cols-12 lg:py-16">
+    <div class="lg:col-span-4">
+      <a href="/" class="inline-block" aria-label="First Fruits home">
+        <Logo class="h-11 w-auto mix-blend-multiply" />
+      </a>
+      <p class="mt-4 max-w-sm text-sm leading-relaxed text-muted">{site.description}</p>
+      {
+        site.social.length > 0 && (
+          <ul class="mt-6 flex flex-wrap gap-4 text-sm">
+            {site.social.map((s) => (
+              <li>
+                <a href={s.href} class="font-medium hover:text-brand" rel="noopener">
+                  {s.label}
+                </a>
+              </li>
+            ))}
+          </ul>
+        )
+      }
+    </div>
+
+    <div class="grid grid-cols-2 gap-8 sm:grid-cols-4 lg:col-span-8">
+      {
+        groups.map((group) => (
+          <div>
+            <h2 class="font-sans text-sm font-semibold">{group.label}</h2>
+            <ul class="mt-4 space-y-3 text-sm text-muted">
+              {group.links.map((link) => (
+                <li>
+                  <a href={link.href} class="hover:text-brand">
+                    {link.label}
+                  </a>
+                </li>
+              ))}
+            </ul>
+          </div>
+        ))
+      }
+      <div>
+        <h2 class="font-sans text-sm font-semibold">Connect</h2>
+        <ul class="mt-4 space-y-3 text-sm text-muted">
+          <li><a href="/contact" class="hover:text-brand">Contact Us</a></li>
+          <li><a href={donateLink.href} class="hover:text-brand">{donateLink.label}</a></li>
+          <li><a href={`mailto:${site.email}`} class="break-all hover:text-brand">{site.email}</a></li>
+        </ul>
+      </div>
+    </div>
+  </div>
+
+  <div class="border-t border-line">
+    <div class="container-page flex flex-col gap-2 py-6 text-sm text-muted sm:flex-row sm:items-center sm:justify-between">
+      <p>&copy; {year} {site.name}. All rights reserved.</p>
+      <p>{site.tagline}</p>
+    </div>
+  </div>
+</footer>

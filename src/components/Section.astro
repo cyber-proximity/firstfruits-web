@@ -1,0 +1,38 @@
+---
+interface Props {
+  /** Background: default (white), muted (off-white), tint (pale brand), brand (solid red) */
+  tone?: 'default' | 'muted' | 'tint' | 'brand';
+  eyebrow?: string;
+  title?: string;
+  intro?: string;
+  align?: 'center' | 'left';
+  /** narrow keeps long text at a readable width */
+  width?: 'default' | 'narrow';
+  id?: string;
+}
+
+const { tone = 'default', eyebrow, title, intro, align = 'center', width = 'default', id } = Astro.props;
+
+const tones = {
+  default: 'bg-surface',
+  muted: 'bg-surface-muted',
+  tint: 'bg-brand-tint',
+  brand: 'bg-brand text-on-brand',
+};
+const onBrand = tone === 'brand';
+---
+
+<section id={id} class:list={[tones[tone], 'py-16 lg:py-24']}>
+  <div class:list={['container-page', width === 'narrow' && 'max-w-4xl']}>
+    {
+      (title || eyebrow || intro) && (
+        <header class:list={['mb-10 lg:mb-14', align === 'center' && 'mx-auto max-w-2xl text-center']}>
+          {eyebrow && <p class:list={['eyebrow', onBrand && 'text-on-brand']}>{eyebrow}</p>}
+          {title && <h2 class:list={['text-3xl font-semibold lg:text-4xl', eyebrow && 'mt-3']}>{title}</h2>}
+          {intro && <p class:list={['mt-4 text-lg leading-relaxed', !onBrand && 'text-muted']}>{intro}</p>}
+        </header>
+      )
+    }
+    <slot />
+  </div>
+</section>

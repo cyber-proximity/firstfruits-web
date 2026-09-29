@@ -1,0 +1,92 @@
+---
+import { Image } from 'astro:assets';
+import { getCollection } from 'astro:content';
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import PageHero from '../../components/PageHero.astro';
+import Section from '../../components/Section.astro';
+import Avatar from '../../components/Avatar.astro';
+import CTA from '../../components/CTA.astro';
+
+// Profiles live in src/content/profiles/.
+const profiles = (await getCollection('profiles')).sort((a, b) => a.data.order - b.data.order);
+const featured = profiles.filter((p) => p.data.featured);
+const others = profiles.filter((p) => !p.data.featured);
+---
+
+<BaseLayout
+  title="VEG ELITES"
+  description="VEG ELITES celebrates visionary people making extraordinary contributions to sustainability, spiritual growth and the betterment of humanity."
+>
+  <PageHero
+    eyebrow="VEG ELITES"
+    title="Meet the pioneers of a greener tomorrow"
+    lead="VEG ELITES celebrates people making extraordinary contributions to sustainability, spiritual growth and the betterment of humanity."
+  />
+
+  <Section title="About VEG ELITES" width="narrow">
+    <p class="text-center text-lg leading-relaxed text-muted">
+      VEG ELITES is a First Fruits platform celebrating visionaries who live a plant-based life and drive innovation in
+      environmental sustainability. We showcase leaders who believe a plant-based future is key to ecological balance,
+      combining ethical living with groundbreaking solutions for a healthier planet.
+    </p>
+  </Section>
+
+  <Section tone="muted" title="Featured elites">
+    <div class="space-y-8">
+      {
+        featured.map((p, i) => (
+          <article class="card relative grid items-center gap-8 overflow-hidden p-6 lg:grid-cols-5 lg:gap-12 lg:p-10">
+            <div class:list={['lg:col-span-2', i % 2 === 1 && 'lg:order-2']}>
+              {p.data.photo ? (
+                <Image src={p.data.photo} alt={`Portrait of ${p.data.name}`} widths={[400, 700]} sizes="(min-width: 1024px) 40vw, 100vw" class="aspect-4/5 w-full rounded-card object-cover" />
+              ) : (
+                <div class="flex aspect-4/3 w-full items-center justify-center rounded-card bg-brand-tint">
+                  <Avatar name={p.data.name} class="size-32 text-4xl" light />
+                </div>
+              )}
+            </div>
+            <div class="lg:col-span-3">
+              <p class="chip">Featured elite</p>
+              <h3 class="mt-4 text-3xl font-semibold lg:text-4xl">
+                <a href={`/veg-elites/${p.id}`} class="after:absolute after:inset-0 hover:text-brand-dark">
+                  {p.data.name}
+                </a>
+              </h3>
+              <p class="mt-2 text-lg font-medium text-brand-dark">{p.data.title}</p>
+              <p class="mt-4 text-lg leading-relaxed text-muted">{p.data.summary}</p>
+              <span class="btn btn-primary mt-6" aria-hidden="true">Learn more</span>
+            </div>
+          </article>
+        ))
+      }
+    </div>
+  </Section>
+
+  <Section title="More VEG ELITES">
+    <ul class="grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
+      {
+        others.map((p) => (
+          <li class="card relative flex flex-col items-center p-8 text-center">
+            <Avatar name={p.data.name} class="size-20 text-2xl" />
+            <h3 class="mt-5 text-xl font-semibold">
+              <a href={`/veg-elites/${p.id}`} class="after:absolute after:inset-0 hover:text-brand-dark">
+                {p.data.name}
+              </a>
+            </h3>
+            <p class="chip mt-3">{p.data.title}</p>
+            <p class="mt-4 leading-relaxed text-muted">{p.data.summary}</p>
+          </li>
+        ))
+      }
+    </ul>
+  </Section>
+
+  <CTA
+    title="Join the movement for a sustainable future"
+    text="Connect with a community dedicated to eco-conscious plant-based living and impactful entrepreneurship. Know someone who should be featured? Tell us."
+    actions={[
+      { label: 'Get involved', href: '/contact' },
+      { label: 'Nominate an elite', href: '/contact' },
+    ]}
+  />
+</BaseLayout>

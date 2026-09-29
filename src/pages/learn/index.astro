@@ -1,0 +1,98 @@
+---
+import { Image } from 'astro:assets';
+import { getCollection } from 'astro:content';
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import PageHero from '../../components/PageHero.astro';
+import Section from '../../components/Section.astro';
+import ImageCardGrid from '../../components/ImageCardGrid.astro';
+import Icon from '../../components/Icon.astro';
+import CTA from '../../components/CTA.astro';
+
+import heroImage from '../../assets/placeholders/learn-hero.jpg';
+
+// Articles, videos and courses live in src/content/articles/.
+const all = (await getCollection('articles')).sort((a, b) => b.data.date.valueOf() - a.data.date.valueOf());
+const featured = all.find((a) => a.data.featured);
+const byType = (type: 'article' | 'video' | 'course') => all.filter((a) => a.data.type === type && a !== featured);
+
+const card = (a: (typeof all)[number], linkLabel: string) => ({
+  image: a.data.cover,
+  alt: a.data.coverAlt,
+  title: a.data.title,
+  text: a.data.description,
+  href: `/learn/${a.id}`,
+  tag: a.data.type === 'course' ? a.data.level : a.data.category,
+  meta: a.data.duration,
+  linkLabel,
+});
+
+const sections = [
+  { id: 'articles', icon: 'book', title: 'Latest articles', items: byType('article').map((a) => card(a, 'Read more')) },
+  { id: 'videos', icon: 'play', title: 'Popular videos', items: byType('video').map((a) => card(a, 'Watch now')) },
+  { id: 'courses', icon: 'graduation', title: 'Explore our courses', items: byType('course').map((a) => card(a, 'Find out more')) },
+] as const;
+---
+
+<BaseLayout
+  title="Learning Hub"
+  description="Articles, videos and courses on eco-spirituality, mindfulness, plant-based living and regenerative practice."
+>
+  <PageHero
+    eyebrow="Learning hub"
+    title="Deepen your understanding"
+    lead="Curated articles, video teachings and courses for continuous growth, from mindfulness and compassion to regenerative living."
+    image={heroImage}
+    imageAlt="A woman reading a book in a library"
+    actions={[
+      { label: 'Start learning today', href: '#articles' },
+      { label: 'Browse courses', href: '#courses' },
+    ]}
+  />
+
+  {
+    featured && (
+      <Section>
+        <article class="card relative grid overflow-hidden lg:grid-cols-2">
+          <Image
+            src={featured.data.cover}
+            alt={featured.data.coverAlt}
+            widths={[480, 800, 1200]}
+            sizes="(min-width: 1024px) 50vw, 100vw"
+            class="aspect-3/2 size-full object-cover"
+          />
+          <div class="flex flex-col justify-center p-6 lg:p-12">
+            <p class="chip self-start">Featured</p>
+            <h2 class="mt-4 text-3xl font-semibold">
+              <a href={`/learn/${featured.id}`} class="after:absolute after:inset-0 hover:text-brand-dark">
+                {featured.data.title}
+              </a>
+            </h2>
+            <p class="mt-4 text-lg leading-relaxed text-muted">{featured.data.description}</p>
+            <span class="mt-6 inline-flex items-center gap-1.5 font-medium text-brand-dark" aria-hidden="true">
+              Read the article <Icon name="arrow-right" class="size-4" />
+            </span>
+          </div>
+        </article>
+      </Section>
+    )
+  }
+
+  {
+    sections.map((s, i) => (
+      <Section id={s.id} tone={i % 2 === 0 ? 'muted' : 'default'}>
+        <h2 class="mb-8 flex items-center gap-3 text-3xl font-semibold">
+          <Icon name={s.icon} class="size-7 text-brand" />
+          {s.title}
+        </h2>
+        <ImageCardGrid items={s.items} />
+      </Section>
+    ))
+  }
+
+  <CTA
+    tone="tint"
+    title="Join our community for updates"
+    text="Be the first to hear about new articles, video teachings and course dates."
+    actions={[{ label: 'Get in touch', href: '/contact' }]}
+  />
+</BaseLayout>

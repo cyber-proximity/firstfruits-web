@@ -1,0 +1,115 @@
+---
+import { Image } from 'astro:assets';
+import type { ImageMetadata } from 'astro';
+import type { Action } from '../lib/types';
+import Actions from './Actions.astro';
+
+interface Props {
+  eyebrow?: string;
+  title: string;
+  lead?: string;
+  image?: ImageMetadata;
+  imageAlt?: string;
+  /**
+   * split:   text beside a photo (default when an image is given)
+   * soft:    photo behind a light wash with dark text, as on the client's current site
+   * overlay: photo behind a dark wash with white centred text
+   * plain:   centred text on a tinted background (default without an image)
+   */
+  variant?: 'split' | 'soft' | 'overlay' | 'plain';
+  actions?: Action[];
+}
+
+const { eyebrow, title, lead, image, imageAlt = '', actions = [] } = Astro.props;
+const variant = Astro.props.variant ?? (image ? 'split' : 'plain');
+const titleClass = 'text-4xl font-bold sm:text-5xl lg:text-6xl';
+---
+
+{
+  variant === 'split' && image && (
+    <section class="bg-surface-muted">
+      <div class="container-page grid items-center gap-10 py-14 lg:grid-cols-2 lg:gap-16 lg:py-20">
+        <div>
+          {eyebrow && <p class="eyebrow">{eyebrow}</p>}
+          <h1 class:list={[titleClass, eyebrow && 'mt-4']}>{title}</h1>
+          {lead && <p class="mt-6 max-w-xl text-lg leading-relaxed text-muted">{lead}</p>}
+          <Actions actions={actions} class="mt-8" />
+        </div>
+        <Image
+          src={image}
+          alt={imageAlt}
+          widths={[480, 800, 1200]}
+          sizes="(min-width: 1024px) 50vw, 100vw"
+          loading="eager"
+          fetchpriority="high"
+          class="aspect-4/3 w-full rounded-card object-cover shadow-sm"
+        />
+      </div>
+    </section>
+  )
+}
+
+{
+  (variant === 'soft' || variant === 'overlay') && image && (
+    <section class="relative isolate overflow-hidden">
+      <Image
+        src={image}
+        alt={imageAlt}
+        widths={[640, 1024, 1600]}
+        sizes="100vw"
+        loading="eager"
+        fetchpriority="high"
+        class="absolute inset-0 -z-10 size-full object-cover"
+      />
+      <div
+        class:list={[
+          'absolute inset-0 -z-10',
+          variant === 'soft'
+            ? 'bg-surface/80 lg:bg-transparent lg:bg-linear-to-r lg:from-surface/95 lg:via-surface/75 lg:to-surface/20'
+            : 'bg-ink/60',
+        ]}
+      />
+      <div
+        class:list={[
+          'container-page py-20 sm:py-24 lg:py-32',
+          variant === 'overlay' && 'text-center text-on-brand',
+        ]}
+      >
+        <div class:list={['max-w-3xl', variant === 'overlay' && 'mx-auto']}>
+          {eyebrow && <p class:list={['eyebrow', variant === 'overlay' && 'text-on-brand']}>{eyebrow}</p>}
+          <h1 class:list={[titleClass, eyebrow && 'mt-4']}>{title}</h1>
+          {lead && (
+            <p
+              class:list={[
+                'mt-6 text-lg leading-relaxed lg:text-xl',
+                variant === 'overlay' ? 'mx-auto max-w-2xl' : 'max-w-xl',
+              ]}
+            >
+              {lead}
+            </p>
+          )}
+          <Actions
+            actions={actions.map((a, i) => (variant === 'overlay' && i > 0 && !a.variant ? { ...a, variant: 'light' } : a))}
+            align={variant === 'overlay' ? 'center' : 'left'}
+            class="mt-10"
+          />
+        </div>
+      </div>
+    </section>
+  )
+}
+
+{
+  variant === 'plain' && (
+    <section class="bg-surface-muted">
+      <div class="container-page py-16 text-center lg:py-24">
+        <div class="mx-auto max-w-3xl">
+          {eyebrow && <p class="eyebrow">{eyebrow}</p>}
+          <h1 class:list={[titleClass, eyebrow && 'mt-4']}>{title}</h1>
+          {lead && <p class="mx-auto mt-6 max-w-2xl text-lg leading-relaxed text-muted">{lead}</p>}
+          <Actions actions={actions} align="center" class="mt-8" />
+        </div>
+      </div>
+    </section>
+  )
+}

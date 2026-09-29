@@ -1,0 +1,98 @@
+---
+import { getCollection } from 'astro:content';
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import PageHero from '../../components/PageHero.astro';
+import Section from '../../components/Section.astro';
+import SplitFeature from '../../components/SplitFeature.astro';
+import FeatureGrid from '../../components/FeatureGrid.astro';
+import ImageCardGrid from '../../components/ImageCardGrid.astro';
+import Quote from '../../components/Quote.astro';
+import CTA from '../../components/CTA.astro';
+import type { Feature } from '../../lib/types';
+
+import heroImage from '../../assets/placeholders/farm-field.jpg';
+import farmer from '../../assets/placeholders/farmer.jpg';
+import meditationLights from '../../assets/placeholders/meditation-lights.jpg';
+
+// Programmes live in src/content/programs/. Each one gets its own page.
+const programs = (await getCollection('programs')).sort((a, b) => a.data.order - b.data.order);
+
+const approach: Feature[] = [
+  { icon: 'leaf', title: 'Eco-Spirituality', text: 'Reconnecting with the Earth as a living being. Our programmes bring reverence for nature into every aspect of farming and daily life.' },
+  { icon: 'compass', title: 'Indigenous Wisdom', text: 'Valuing and revitalising ancestral techniques and ecological knowledge passed down through generations, adapted to local ecosystems.' },
+  { icon: 'handshake', title: 'Community Empowerment', text: 'Building resilient communities through shared decision-making, shared resources and peer-to-peer learning.' },
+];
+---
+
+<BaseLayout
+  title="What We Do"
+  description="Regenerative agriculture, biochar, clean cooking, plant-based living and forest restoration: how First Fruits nurtures the Earth and empowers communities."
+>
+  <PageHero
+    variant="overlay"
+    eyebrow="What we do"
+    title="Nurturing our Earth, empowering communities"
+    lead="Regenerative practices and a sustainable future, cultivated through sacred stewardship and guided by indigenous wisdom."
+    image={heroImage}
+    imageAlt=""
+    actions={[
+      { label: 'Explore our programmes', href: '#programmes' },
+      { label: 'Support our work', href: '/contact?topic=donation' },
+    ]}
+  />
+
+  <Section
+    title="Supporting climate adaptation for smallholder farmers"
+    intro="Climate change hits smallholder farmers hardest. We partner with these communities to cultivate resilient, regenerative practices that honour both ancient wisdom and ecological balance."
+  >
+    <SplitFeature image={farmer} imageAlt="A farmer tending his crops in a green field" title="Climate challenges and local impacts" as="h3" actions={[{ label: 'Read more', href: '/what-we-do/smallholder-farmers' }]}>
+      <p>
+        Smallholder farmers face unpredictable weather, prolonged droughts and new pests that threaten food security and
+        economic stability.
+      </p>
+      <p>We see these impacts first-hand, and work to understand and address the specific vulnerabilities of each region.</p>
+    </SplitFeature>
+  </Section>
+
+  <Section tone="muted" title="Our regenerative approach">
+    <FeatureGrid items={approach} align="center" />
+  </Section>
+
+  <Section id="programmes" title="Tangible steps towards sustainability" intro="Explore the programmes through which we heal the land and support the people who depend on it.">
+    <ImageCardGrid
+      items={programs.map((p) => ({
+        image: p.data.cover,
+        alt: p.data.coverAlt,
+        title: p.data.title,
+        text: p.data.summary,
+        href: `/what-we-do/${p.id}`,
+      }))}
+    />
+  </Section>
+
+  <Section tone="muted">
+    <SplitFeature image={meditationLights} imageAlt="Rows of lit candles glowing in the dark" title="Our philosophy: cultivating harmony">
+      <p>
+        True sustainability emerges from a harmonious relationship between humanity and nature. Ecological well-being is
+        inseparable from human well-being.
+      </p>
+      <p>
+        We cultivate not just fertile land but thriving communities, honouring the wisdom in traditional practices and the
+        power of collective action.
+      </p>
+    </SplitFeature>
+  </Section>
+
+  <Section>
+    <Quote quote="The Earth is not a cold body of earth; she is a living being. We are all of the Earth, and she is of us." cite="Indigenous wisdom" />
+  </Section>
+
+  <CTA
+    title="Join our mission to restore and sustain"
+    text="Your support helps smallholder farmers thrive despite climate challenges. Partner with us to spread regenerative practices and empower communities."
+    actions={[
+      { label: 'Get involved today', href: '/contact' },
+      { label: 'Make a donation', href: '/contact?topic=donation' },
+    ]}
+  />
+</BaseLayout>

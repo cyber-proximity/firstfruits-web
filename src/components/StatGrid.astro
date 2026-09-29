@@ -1,0 +1,23 @@
+---
+import type { Stat } from '../lib/types';
+import Icon from './Icon.astro';
+
+interface Props {
+  items: Stat[];
+}
+
+const { items } = Astro.props;
+const cols = items.length === 4 ? 'sm:grid-cols-2 lg:grid-cols-4' : 'sm:grid-cols-3';
+---
+
+<dl class:list={['grid gap-6', cols]}>
+  {
+    items.map((stat) => (
+      <div class="card flex flex-col items-center p-8 text-center">
+        {stat.icon && <Icon name={stat.icon} class="size-7 text-brand" />}
+        <dt class="order-3 mt-2 text-muted">{stat.label}</dt>
+        <dd class="order-2 mt-4 font-display text-4xl font-bold text-brand xl:text-5xl">{stat.value}</dd>
+      </div>
+    ))
+  }
+</dl>

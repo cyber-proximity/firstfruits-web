@@ -1,0 +1,95 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import PageHero from '../components/PageHero.astro';
+import Section from '../components/Section.astro';
+import SplitFeature from '../components/SplitFeature.astro';
+import FeatureGrid from '../components/FeatureGrid.astro';
+import ImageCardGrid from '../components/ImageCardGrid.astro';
+import Quote from '../components/Quote.astro';
+import CTA from '../components/CTA.astro';
+import type { Feature, ImageCard } from '../lib/types';
+
+import heroImage from '../assets/placeholders/forest-mist.jpg';
+import missionImage from '../assets/placeholders/palo-santo.jpg';
+import visionImage from '../assets/placeholders/farm-field.jpg';
+import education from '../assets/placeholders/education.jpg';
+import communityBuild from '../assets/placeholders/community-build.jpg';
+import family from '../assets/placeholders/family.jpg';
+import coop from '../assets/placeholders/coop-reading.jpg';
+
+const approach: Feature[] = [
+  { icon: 'heart', title: 'Compassionate Action', text: 'We empower you to engage with the world with empathy, turning inner peace into meaningful contributions for all beings.' },
+  { icon: 'flower', title: 'Mindful Living', text: 'Practices that cultivate present-moment awareness, reduce stress and bring clarity to daily life.' },
+  { icon: 'leaf', title: 'Stewardship for Earth', text: 'Connect with the natural world and discover how your actions can contribute to a sustainable, harmonious planet.' },
+  { icon: 'users', title: 'Interconnected Community', text: 'A global network of like-minded people offering mutual support, shared learning and collective growth.' },
+];
+
+const heritage: ImageCard[] = [
+  { image: education, alt: 'Children learning together in a classroom', title: 'Education & Mentorship', text: 'Quality education and mentorship for young people, building critical thinking and leadership rooted in community values.' },
+  { image: communityBuild, alt: 'People tending raised beds in a community garden', title: 'Community Development', text: 'Grassroots projects that strengthen infrastructure, health and economic opportunity, guided by community-led solutions.' },
+  { image: family, alt: 'A father carrying his baby on his shoulders at the beach', title: 'Cultural Heritage', text: 'Celebrating and preserving ancestral traditions, arts and wisdom, and sharing them across cultures.' },
+  { image: coop, alt: 'Women working together in a green field', title: 'Economic Empowerment', text: 'Supporting local enterprises and cooperatives with resources, training and market access for sustainable livelihoods.' },
+];
+---
+
+<BaseLayout
+  title="About Us"
+  description="First Fruits is a global community dedicated to ecological stewardship and spiritual awakening, guided by ancient wisdom and modern sustainability."
+>
+  <PageHero
+    eyebrow="About First Fruits"
+    title="Our sacred purpose"
+    lead="We are devoted to fostering a global community dedicated to ecological stewardship and spiritual awakening. Through ancient practices and modern sustainability, we guide people to a deeper connection with themselves, each other and the planet."
+    image={heroImage}
+    imageAlt="Golden mist rising over a forest"
+    actions={[
+      { label: 'Explore our philosophy', href: '/manifesto' },
+      { label: 'Meet the team', href: '/team' },
+    ]}
+  />
+
+  <Section>
+    <SplitFeature image={missionImage} imageAlt="A hand holding a burning stick of palo santo" eyebrow="Our mission" title="Cultivating presence, inspiring action">
+      <p>
+        To cultivate a global movement dedicated to ethical, climate-conscious food systems through spiritual awakening and
+        compassionate action.
+      </p>
+      <p>
+        We empower people to embody ecological wisdom, promote biodiversity and heal our planet, one mindful choice at a
+        time.
+      </p>
+    </SplitFeature>
+  </Section>
+
+  <Section tone="muted">
+    <SplitFeature image={visionImage} imageAlt="Green crops growing in long rows under a bright sky" eyebrow="Our vision" title="A world alive with eco-spiritual consciousness" reverse>
+      <p>
+        We envision a world where humanity thrives in harmonious coexistence with all life, and regenerative systems nurture
+        a just and equitable planet.
+      </p>
+      <p>A world where every being experiences profound connection, boundless compassion and radiant well-being.</p>
+    </SplitFeature>
+  </Section>
+
+  <Section title="Guiding your journey to wholeness" intro="Four threads run through every programme, gathering and teaching we offer.">
+    <FeatureGrid items={approach} columns={4} />
+  </Section>
+
+  <Section tone="muted">
+    <Quote quote="The greatest gift you can give is the gift of your true presence." cite="Zen proverb" />
+  </Section>
+
+  <Section title="Celebrating heritage, empowering communities" intro="Our work builds on the rich tapestry of African and indigenous traditions, fostering resilience and innovation.">
+    <ImageCardGrid items={heritage} columns={4} />
+  </Section>
+
+  <CTA
+    tone="tint"
+    title="Meet the people behind First Fruits"
+    text="Our team brings together spiritual teachers, scientists, farmers and community builders united by one purpose."
+    actions={[
+      { label: 'Meet our team', href: '/team' },
+      { label: 'Read our manifesto', href: '/manifesto', variant: 'outline' },
+    ]}
+  />
+</BaseLayout>

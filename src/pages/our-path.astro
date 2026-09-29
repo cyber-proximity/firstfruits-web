@@ -1,0 +1,87 @@
+---
+import { getCollection } from 'astro:content';
+import BaseLayout from '../layouts/BaseLayout.astro';
+import PageHero from '../components/PageHero.astro';
+import Section from '../components/Section.astro';
+import SplitFeature from '../components/SplitFeature.astro';
+import FeatureGrid from '../components/FeatureGrid.astro';
+import ImageCardGrid from '../components/ImageCardGrid.astro';
+import CTA from '../components/CTA.astro';
+import type { Feature } from '../lib/types';
+
+import heroImage from '../assets/placeholders/forest-sunburst.jpg';
+import coop from '../assets/placeholders/coop-reading.jpg';
+import forest from '../assets/placeholders/forest-sunburst.jpg';
+import eggs from '../assets/placeholders/eggs.jpg';
+
+const practices: Feature[] = [
+  { icon: 'flower', title: 'Mindful Meditation', text: 'Cultivating inner peace and clarity through guided practice and silent reflection, deepening the connection to your spiritual core.' },
+  { icon: 'salad', title: 'Nourishing Plant-Based Cuisine', text: 'Organic, locally sourced plant-based food that honours our bodies and the planet, promoting vitality and sustainability.' },
+  { icon: 'leaf', title: 'Eco-Conscious Living', text: 'Sustainable choices in every part of life, from reducing waste to saving energy, in harmony with Earth’s rhythms.' },
+];
+
+const learnLinks = ['power-of-presence', 'unconditional-love-in-action', 'planetary-care-and-connection'];
+const articles = (await getCollection('articles')).filter((a) => learnLinks.includes(a.id));
+---
+
+<BaseLayout
+  title="Our Path"
+  description="Embodied awakening and sacred stewardship: the daily practices and community projects at the heart of First Fruits."
+>
+  <PageHero
+    variant="overlay"
+    eyebrow="Our path"
+    title="Embodied awakening, sacred stewardship"
+    lead="We nurture the profound connection between self, community and the Earth. Discover how our daily rituals and community projects cultivate a harmonious existence."
+    image={heroImage}
+    imageAlt=""
+    actions={[{ label: 'Explore our practices', href: '#practices' }]}
+  />
+
+  <Section id="practices" title="Daily practices: rituals of resonance">
+    <FeatureGrid items={practices} />
+  </Section>
+
+  <Section tone="muted" title="Community projects: cultivating sacred reciprocity">
+    <div class="space-y-16 lg:space-y-24">
+      <SplitFeature image={coop} imageAlt="Women working together in a green field" title="Empowering rural women's cooperatives" as="h3">
+        <p>
+          We partner with rural women's cooperatives to foster economic independence and regenerative agriculture. Through
+          training in biochar production and sustainable farming, we revitalise local ecosystems and support food security.
+        </p>
+      </SplitFeature>
+      <SplitFeature image={forest} imageAlt="Soft light falling through a misty forest" title="Restoring forests with biochar & community" as="h3" reverse>
+        <p>
+          Large-scale forest restoration, using biochar to enrich soil and accelerate recovery. Each tree planted is a step
+          towards a healthier planet, nurtured by collective effort and sacred intention.
+        </p>
+      </SplitFeature>
+      <SplitFeature image={eggs} imageAlt="A crate filled with fresh vegetables and herbs" title="Sharing organic offerings" as="h3">
+        <p>
+          We share organic offerings with spiritual and online communities worldwide. This act of sacred reciprocity
+          celebrates our interconnectedness and a culture of giving and gratitude.
+        </p>
+      </SplitFeature>
+    </div>
+  </Section>
+
+  <Section title="Deepen your understanding" intro="Resources from our learning hub to support your path.">
+    <ImageCardGrid
+      items={articles.map((a) => ({
+        image: a.data.cover,
+        alt: a.data.coverAlt,
+        title: a.data.title,
+        text: a.data.description,
+        href: `/learn/${a.id}`,
+        linkLabel: 'Read more',
+      }))}
+    />
+  </Section>
+
+  <CTA
+    tone="tint"
+    title="Join our journey of sacred stewardship"
+    text="Every action and every choice creates a ripple. Be part of our mission to cultivate a more awakened and sustainable world."
+    actions={[{ label: 'Connect with us', href: '/contact' }]}
+  />
+</BaseLayout>

@@ -1,0 +1,58 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import PageHero from '../components/PageHero.astro';
+import ContactForm from '../components/ContactForm.astro';
+import Icon from '../components/Icon.astro';
+import { site } from '../data/site';
+---
+
+<BaseLayout
+  title="Contact Us"
+  description="Get in touch with First Fruits to volunteer, partner, donate, join a course or simply say hello."
+>
+  <PageHero
+    eyebrow="Contact"
+    title="Let's grow something good together"
+    lead="Whether you want to volunteer, partner with us, support our work or simply learn more, we would love to hear from you."
+  />
+
+  <section class="py-16 lg:py-24">
+    <div class="container-page grid gap-12 lg:grid-cols-3 lg:gap-16">
+      <div class="lg:col-span-2">
+        <h2 class="text-3xl font-semibold">Send us a message</h2>
+        <p class="mt-3 text-muted">We usually reply within two working days.</p>
+        <div class="mt-8">
+          <ContactForm />
+        </div>
+      </div>
+
+      <aside class="space-y-6">
+        <div class="card p-6">
+          <h2 class="flex items-center gap-3 text-xl font-semibold">
+            <Icon name="mail" class="size-6 text-brand" /> Email
+          </h2>
+          <a href={`mailto:${site.email}`} class="mt-3 block break-all font-medium text-brand-dark hover:text-brand">{site.email}</a>
+        </div>
+
+        <div id="donate" class="card bg-brand-tint p-6">
+          <h2 class="flex items-center gap-3 text-xl font-semibold">
+            <Icon name="heart" class="size-6 text-brand" /> Donate
+          </h2>
+          <p class="mt-3 leading-relaxed">
+            Your gift supports farmers, forests and communities. Choose <strong>Donation</strong> in the form and we will
+            share how to give.
+          </p>
+        </div>
+
+        <div class="card p-6">
+          <h2 class="flex items-center gap-3 text-xl font-semibold">
+            <Icon name="users" class="size-6 text-brand" /> Get involved
+          </h2>
+          <p class="mt-3 leading-relaxed text-muted">
+            Volunteer at an event, join a workshop, nominate a VEG ELITE or bring First Fruits to your community.
+          </p>
+        </div>
+      </aside>
+    </div>
+  </section>
+</BaseLayout>
